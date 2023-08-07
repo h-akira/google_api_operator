@@ -3,5 +3,5 @@ This library was created with the goal of organizing the functionality of google
 
 # Install
 ```
-pip3 install git+git@github.com:h-akira/google_api_operator.git
+pip3 install git+ssh://git@github.com/h-akira/google_api_operator.git
 ```
