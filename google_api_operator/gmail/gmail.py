@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import base64
-from . import mail_class as mc
 from email.message import EmailMessage
 import google.auth
 from googleapiclient.discovery import build
@@ -40,6 +39,22 @@ def send_mail(service, Subject, Message, To=None, Cc=None, Bcc=None):
     send_message = None
   return send_message
 
+class Mail:
+  def __init__(self):
+    self.id = None
+    self.subject = None
+    self.date = None
+    self._from = None
+    self._to = None
+    self.body = []
+    self.html = None
+  def get_connected_body(self):
+    return '\n'.join(self.body)
+
+class Mail_list(list):
+  def __init__(self):
+    self.known_flag = False
+
 def get_data(detail_point,data_list=list()):
   if detail_point.__class__ is list:
     iter = detail_point
@@ -56,7 +71,7 @@ def get_data(detail_point,data_list=list()):
   return detail_point,data_list      
 
 def get_mail_list(service,query,N,progress=False,known_ids=[],known_continue=False,div=False,cur=None):
-  mail_list = mc.Mail_list()
+  mail_list = Mail_list()
   message_ids = service.users().messages().list(userId="me", maxResults=N, q=query).execute()
   if message_ids["resultSizeEstimate"] == 0:
     print("取得可能なメッセージはありません．")
@@ -64,7 +79,7 @@ def get_mail_list(service,query,N,progress=False,known_ids=[],known_continue=Fal
     for i,message in enumerate(message_ids["messages"]):
       if progress:
         print("\r"+f'progress:{i+1}/{N}',end="")
-      mail = mc.Mail()
+      mail = Mail()
       mail.id=message["id"]
       if mail.id in known_ids:
         mail_list.known_flag = True
