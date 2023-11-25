@@ -10,7 +10,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.exceptions import RefreshError
 
-def get_service(SCOPES, credentials_json, token_json, resource_name, api_version, if_RefreshError=False):
+def get_service(SCOPES, credentials_json, token_json, resource_name, api_version, re_authenticate=False):
   # resource_name: gmail, sheets, etc.
   # api_version: v1, v4, etc.
   creds = None
@@ -18,7 +18,7 @@ def get_service(SCOPES, credentials_json, token_json, resource_name, api_version
   # created automatically when the authorization flow completes for the first
   # time.
   if os.path.exists(token_json):
-    if if_RefreshError:
+    if re_authenticate:
       try:
         creds = Credentials.from_authorized_user_file(token_json, SCOPES)
       except RefreshError:

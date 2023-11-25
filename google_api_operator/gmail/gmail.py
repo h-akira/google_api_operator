@@ -6,13 +6,18 @@ import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-def send_mail(service, Subject, Message, To=None, Bcc=None):
+def send_mail(service, Subject, Message, To=None, Cc=None, Bcc=None):
   try:
     message = EmailMessage()
     message["Subject"] = Subject
     message.set_content(Message)
     if To:
       message["To"] = To
+    if Cc:
+      if Cc.__class__ is list or Cc.__class__ is tuple:
+        message["Cc"] = ",".join(Cc)
+      else:
+        message["Cc"] = Cc
     if Bcc:
       if Bcc.__class__ is list or Bcc.__class__ is tuple:
         message["Bcc"] = ",".join(Bcc)
