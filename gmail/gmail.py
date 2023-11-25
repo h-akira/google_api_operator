@@ -6,12 +6,11 @@ import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-def send_mail(service, Subject, Message, From, To=None, Bcc=None):
+def send_mail(service, Subject, Message, To=None, Bcc=None):
   try:
     message = EmailMessage()
     message["Subject"] = Subject
     message.set_content(Message)
-    message["From"] = From
     if To:
       message["To"] = To
     if Bcc:
