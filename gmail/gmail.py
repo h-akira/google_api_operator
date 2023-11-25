@@ -1,6 +1,35 @@
 #!/usr/bin/env python3
 import base64
 from . import mail_class as mc
+from email.message import EmailMessage
+import google.auth
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
+def send_mail(service, To, From, Subject, Message):
+  try:
+    message = EmailMessage()
+    message.set_content(Message)
+    message["To"] = To
+    message["From"] = From
+    message["Subject"] = Subject
+
+    # encoded message
+    encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+
+    create_message = {"raw": encoded_message}
+    # pylint: disable=E1101
+    send_message = (
+        service.users()
+        .messages()
+        .send(userId="me", body=create_message)
+        .execute()
+    )
+    print(f'Message Id: {send_message["id"]}')
+  except HttpError as error:
+    print(f"An error occurred: {error}")
+    send_message = None
+  return send_message
 
 def get_data(detail_point,data_list=list()):
   if detail_point.__class__ is list:
