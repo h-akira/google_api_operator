@@ -1,4 +1,3 @@
-from .gmail import get_mail_list, send_mail
-from . import mail_class
+from .gmail import get_mail_list, send_mail, Mail
 
-__all__ = ['get_mail_list', 'mail_class', 'send_mail']
+__all__ = ['get_mail_list', 'send_mail', 'Mail']
