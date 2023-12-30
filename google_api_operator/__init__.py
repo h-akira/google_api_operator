@@ -1,3 +1,3 @@
-from . import gmail, authentication
+from . import gmail, authentication, gcalendar
 
-__all__ = ['gmail', 'authentication']
+__all__ = ['gmail', 'authentication', 'gcalendar']
