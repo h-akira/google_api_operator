@@ -1,2 +1,3 @@
-from .gcalendar import SCOPES, templates
+from .gcalendar import SCOPES
+from . import  templates
 __all__ = ['SCOPES', 'templates']
